@@ -6,5 +6,3 @@ source  ~/.config/nvim/theme.vim
 
 "Personal options
 source ~/.config/nvim/personal.vim
-
-" test123123
