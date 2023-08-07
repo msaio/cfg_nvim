@@ -1,6 +1,6 @@
 " =======================================================================================================================================
 " ---Plugins Config---
-"	+ Nerdtree
+"	" Nerdtree "
 " Nerdtree Toggle
 map <F2> :NERDTreeToggle<CR>
 " Exit Vim if NERDTree is the only window remaining in the only tab.
@@ -24,7 +24,7 @@ let g:NERDCommentEmptyLines = 0
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 
-" + coc
+" " COC "
 " You have to remap <cr> to make it confirms completion.
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 " To make <cr> select the first completion item and confirm the completion when no item has been selected:
@@ -53,11 +53,11 @@ inoremap <silent><expr> <c-@> coc#refresh()
 inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
-" coc - Extension:
+" " COC - Extension: "
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" + FZF
+" " FZF "
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -90,12 +90,37 @@ endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
+" Use emoji-fzf and fzf to fuzzy-search for emoji, and insert the result
+function! InsertEmoji(emoji)
+    let @a = system('cut -d " " -f 1 | emoji-fzf get', a:emoji)
+    normal! "agP
+endfunction
+
+command! -bang Emoj
+  \ call fzf#run({
+      \ 'source': 'emoji-fzf preview',
+      \ 'options': '--preview ''emoji-fzf get --name {1}''',
+      \ 'sink': function('InsertEmoji')
+      \ })
+" Ctrl-e in normal and insert mode will open the emoji picker.
+" Unfortunately doesn't bring you back to insert mode 😕
+map <C-e> :Emoj<CR>
+imap <C-e> <C-o><C-e>
+
+" " Emoji "
 " + vim-emoji
-set completefunc=gh_emoji#complete
+set completefunc=emoji#complete
+" set completefunc=gh_emoji#complete
+" " %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+" noremap <F9> :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<Enter>
+function! ReplaceEmojis()
+  %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
+endfunction
+noremap <F9> :call ReplaceEmojis()<Enter>
 
 " + vim-emoji-ab
-au FileType html,php,markdown,mmd,text,mail,gitcommit,vim
-    \ runtime macros/emoji-ab.vim
+" au FileType *
+		" \ runtime macros/emoji-ab.vim
 
 " gitlens like - blamer
 let g:blamer_enabled = 1 							" enable by default
@@ -106,6 +131,10 @@ let g:blamer_relative_time = 1 				" commit date in relative format
 let g:blamer_prefix = ' --> '           " prefix
 " default color
 highlight Blamer ctermfg=green 
+
+" " Buffers "
+" close-buffers.vim " https://github.com/Asheq/close-buffers.vim
+nnoremap <silent> <F32> :Bdelete menu<CR>
 
 " =======================================================================================================================================
 " ---Personal Config---
@@ -159,9 +188,9 @@ augroup remember_folds
   autocmd BufWinLeave *.* mkview
   autocmd BufWinEnter *.* silent! loadview
 augroup END
+" " Manually fold
+set foldmethod=manual 
 
-" Toggle PasteMode : <C-F2> == <F26>
-set pastetoggle=<F26>
 
 " Mouse in vim
 function! ToggleMouse()
@@ -195,8 +224,11 @@ noremap <C-W>= :call ToggleFullScreen() <CR>
 " <F1>
 noremap <F1> :call ToggleMouse() <CR>
 
-" <C-F2> == <F26>
-" noremap <F26> :call ToggleMouse() <CR>
+" Toggle PasteMode : <C-F2> == <F26>
+set pastetoggle=<F26>
+
+" Open note <S-F2> == <F14>
+noremap <F14> :vs $NOTE_PATH<CR> 
 
 " Save manually
 noremap <F3> :w <Enter>
@@ -222,6 +254,10 @@ noremap <F4><F3> :wqall! <Enter>
 noremap <F29> :let @/ = "" <Enter>
 " Get latest change manually
 noremap <F5> :checktime <Enter>
+" Search for selected
+" Simple: select with <C-v> then hit //
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+" Advance: https://vim.fandom.com/wiki/Search_for_visually_selected_text
 
 " Get latest change automatically
 " Editing file will be sync from any source but it takes maybe 2-3 seconds to take effect so dont worry
@@ -260,6 +296,19 @@ set splitright
 " new buffer below the current buffer
 set splitbelow
 
-
-
+" " yanked into clipboard
 set clipboard^=unnamed,unnamedplus
+
+" " highligh parenthesis
+hi MatchParen ctermbg=darkblue guibg=darkblue
+
+function! CurrentColorBoard()
+	so $VIMRUNTIME/syntax/colortest.vim
+endfunc
+
+nnoremap <S-Down> <nop>
+vnoremap <S-Down> <nop>
+inoremap <S-Down> <nop>
+nnoremap <S-Up> <nop>
+vnoremap <S-Up> <nop>
+inoremap <S-Up> <nop>
