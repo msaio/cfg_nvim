@@ -7,4 +7,4 @@ source  ~/.config/nvim/theme.vim
 "Personal options
 source ~/.config/nvim/personal.vim
 
-" test
+" test123123123
