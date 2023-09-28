@@ -18,10 +18,10 @@
 					"selectionRanges",
 					"semanticHighlighting",
 					"completion"
-			],
-			"formatter": "auto"
+				],
+				"formatter": "auto"
 			},
-			"filetypes": ["ruby"]
+			"filetypes": ["ruby", ".erb"]
 		}
 	}
 }

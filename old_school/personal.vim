@@ -1,20 +1,50 @@
-" =======================================================================================================================================
-" ---Plugins Config---
+" ========================================
+" --- "Helpers" ---
+function! CurrentColorBoard()
+	so $VIMRUNTIME/syntax/colortest.vim
+endfunc
+
+function! GetPath()
+	let current_file = expand('%:p')	
+	echo current_file | redraw
+	return current_file
+endfunc
+noremap <F26> :call GetPath()<CR>
+
+function! JumpToVscode()
+	!code %:p
+endfunc
+noremap <F26><F26> :call JumpToVscode() <CR>
+
+" ========================================
+" --- "Plugins" ---
 "	" Nerdtree "
 " Nerdtree Toggle
 map <F2> :NERDTreeToggle<CR>
+" Sometimes shit happen and NERDTree command fix thing, so be it
+" <Alt-F2> = <F50>
+map <F50> :NERDTree<CR>
+"
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+"
 " Open the existing NERDTree on each new tab.
 autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 let g:nerdtree_sync_cursorline = 1
+"
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
-" + Nerdcommenter
+" " Nerdcommenter "
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " Enable trimming of trailing whitespace when uncommenting
@@ -34,12 +64,12 @@ inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>
 inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Use coc#pum#info() if you need to confirm completion, only when there's selected complete item:
 inoremap <silent><expr> <cr> coc#pum#visible() && coc#pum#info()['index'] != -1 ? coc#pum#confirm() : "\<C-g>u\<CR>"
-" use <tab> for trigger completion and navigate to the next complete item
+" Use <tab> for trigger completion and navigate to the next complete item
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
+"
 inoremap <silent><expr> <Tab>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
@@ -52,7 +82,7 @@ inoremap <silent><expr> <c-@> coc#refresh()
 " Use <Tab> and <S-Tab> to navigate the completion list:
 inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
-
+"
 " " COC - Extension: "
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -63,22 +93,22 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-
+"
 " Default fzf layout
 " - Popup window (center of the screen)
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.7 } }
-
+"
 " Preview window is hidden by default. You can toggle it with ctrl-/.
 " It will show on the right with 50% width, but if the width is smaller
 " than 70 columns, it will show above the candidate list
 let g:fzf_preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-/']
-
+"
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
-
+"
 noremap <c-\> :RG <Enter>
-noremap <c-p> :Files <Enter>
-
+noremap <c-p> :Files <enter>
+"
 " Customize RG command to get highlight search keywords
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --colors "match:fg:black" --colors "match:bg:white" --colors "line:fg:yellow" --smart-case -- %s || true'
@@ -87,15 +117,16 @@ function! RipgrepFzf(query, fullscreen)
   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
-
+"
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
+" " Emoji "
 " Use emoji-fzf and fzf to fuzzy-search for emoji, and insert the result
 function! InsertEmoji(emoji)
     let @a = system('cut -d " " -f 1 | emoji-fzf get', a:emoji)
     normal! "agP
 endfunction
-
+"
 command! -bang Emoj
   \ call fzf#run({
       \ 'source': 'emoji-fzf preview',
@@ -106,23 +137,24 @@ command! -bang Emoj
 " Unfortunately doesn't bring you back to insert mode 😕
 map <C-e> :Emoj<CR>
 imap <C-e> <C-o><C-e>
-
-" " Emoji "
+"
 " + vim-emoji
 set completefunc=emoji#complete
 " set completefunc=gh_emoji#complete
 " " %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
-" noremap <F9> :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<Enter>
+" noremap <F33><F33> :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<Enter>
 function! ReplaceEmojis()
   %s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g
 endfunction
-noremap <F9> :call ReplaceEmojis()<Enter>
-
+" <F33> = <C-F9>
+noremap <F33><F33> :call ReplaceEmojis()<Enter>
+"
 " + vim-emoji-ab
 " au FileType *
 		" \ runtime macros/emoji-ab.vim
 
-" gitlens like - blamer
+" " Gitlens like "
+" APZelos/blamer.nvim
 let g:blamer_enabled = 1 							" enable by default
 let g:blamer_delay = 400 							" delay time to display
 let g:blamer_show_in_visual_modes = 1 " enable in visual mode
@@ -133,33 +165,24 @@ let g:blamer_prefix = ' --> '           " prefix
 highlight Blamer ctermfg=green 
 
 " " Buffers "
-" close-buffers.vim " https://github.com/Asheq/close-buffers.vim
-nnoremap <silent> <F32> :Bdelete menu<CR>
+" Asheq/close-buffers.vim
+" Open menu " <C-F10> = <F34>
+nnoremap <silent> <F34> :Bdelete menu<CR>
 
-" =======================================================================================================================================
-" ---Personal Config---
-" Show current position of cursor easily
-set cursorline
-set cursorcolumn
+" " tpope/vim-surround+vim-repeat "
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-" Show current line number
-set nu rnu
+" " Autosave "
+" tpope/vim-obsession
+" <C-F3> == <F27>
+" Toggle vim obsession track/pause
+noremap <F27> :Obsess <CR>
+" Toggle vim obsession track/delete
+noremap <F27><F27> :Obsess! <CR>
 
-" Highlight search result
-set hls
-
-" Set how many spaces 'tab' does
-set tabstop=2
-" Set how many space '>>' does
-set shiftwidth=2
-
-" Autoindent
-set autoindent
-
-" Set no swap file (highly recommend to run with autosave configuration)
-set noswapfile
-
-" Below shortcut combine keys help disbaling
+" ========================================
+" --- "Personal" ---
+" "Save" 
 function! ToggleAutoSave()
 	if !exists('#Autosave#TextChanged') 
 		augroup Autosave
@@ -181,85 +204,105 @@ endfunc
 silent! call ToggleAutoSave()<CR>
 " <S-F3> == <F15>
 noremap <F15> :call ToggleAutoSave() <CR>
+"
+" Save manually
+noremap <F3> :w <Enter>
+" Save all
+noremap <F3><F3> :wall <Enter>
+" write the current file and exit
+" noremap <F3><F4> :wq <Enter>
+" Like ":wq" but write only when changes have been made
+noremap <F3><F4> :x <Enter>
+" Quit without saving, refer to "Close buffer"
+noremap <F4><F4> :q! <Enter>
+" Save all openings and quit
+" noremap <F4><F3> :wqall! <Enter>
+" write all changed buffers and exit
+noremap <F4><F3> :xa! <Enter>
 
+" "Fold"
+" " Toggle foldmethod: manual/indent (manual as default)
+function! ToggleFoldMethod()
+	if &foldmethod == 'manual'
+		set foldmethod=indent
+		echom "ToggleFoldMethod(): indent"
+	else
+		set foldmethod=manual
+		echom "ToggleFoldMethod(): manual"
+	endif
+endfunc
+noremap <F9><F9> :call ToggleFoldMethod() <CR>
+" " Manually fold
+set foldmethod=manual 
+"
 " " Remember folding (means return to last position you quit) * fix issue with fzf
 augroup remember_folds
   autocmd!
   autocmd BufWinLeave *.* mkview
   autocmd BufWinEnter *.* silent! loadview
 augroup END
-" " Manually fold
-set foldmethod=manual 
 
 
-" Mouse in vim
+" "Mouse"
 function! ToggleMouse()
 	" check if mouse is enabled
 	if &mouse == 'a'
 		" disable mouse
 		set mouse=
-		echom "mouse OFF" 
+		echom "ToggleMouse(): OFF" 
 	else
 		" enable mouse everywhere
 		set mouse=a
-		echom "mouse ON"
+		echom "ToggleMouse(): ON"
 	endif
 endfunc
+"
+noremap <F1> :call ToggleMouse() <CR>
 
-" Toogle current window to max hori and verti
+" "Pane"
+" Toggle pane to fullscreen 
+" ISSUE: may break opening nertree -> reopen nertree should be fine
 let g:flscr = 0
+"
 function! ToggleFullScreen()
 	if g:flscr == 1
 		let g:flscr = 0
 		exec "vertical wincmd ="
 		exec "wincmd ="
+		echo "ToggleFullScreen():" . g:flscr
 	else
 		let g:flscr = 1
 		exec "vertical resize"
 		exec "resize"
+		echo "ToggleFullScreen():" . g:flscr
 	endif
 endfunc
+"
 noremap <C-W>= :call ToggleFullScreen() <CR>
 
-" <F1>
-noremap <F1> :call ToggleMouse() <CR>
-
-" Toggle PasteMode : <C-F2> == <F26>
-set pastetoggle=<F26>
-
+" "Ultilities"
+" Toggle PasteMode " <A-F1> == <F49>
+set pastetoggle=<F49>
+"
 " Open note <S-F2> == <F14>
-noremap <F14> :vs $NOTE_PATH<CR> 
-
-" Save manually
-noremap <F3> :w <Enter>
-" Save all
-noremap <F3><F3> :wall <Enter>
-" <C-F3> == <F27>
-" Toggle vim obsession track/pause
-noremap <F27> :Obsess <CR>
-" Toggle vim obsession track/delete
-noremap <F27><F27> :Obsess! <CR>
-
-" Save and quit
-noremap <F3><F4> :wq <Enter>
-" Quit without saving " <F28> = <C-F4>
-noremap <F4><F4> :q! <Enter>
-noremap <F28><F28> :bdelete <Enter>
-
-" Save all openings and quit
-noremap <F4><F3> :wqall! <Enter>
-
-" Clear the highlight search : <C-F5> == <F29> with plug we current have, can
-" use ctrl-l instead
+" noremap <F14> :vs $NOTE_PATH<CR>
+noremap <F14> :$tabnew $NOTE_PATH<CR> 
+"
+" Clear hightligh keyword search
+" Completely remove: <C-F5> == <F29>
 noremap <F29> :let @/ = "" <Enter>
-" Get latest change manually
-noremap <F5> :checktime <Enter>
+" Remove highlight only
+" Use: " Ctrl-l "
+"
 " Search for selected
 " Simple: select with <C-v> then hit //
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " Advance: https://vim.fandom.com/wiki/Search_for_visually_selected_text
-
-" Get latest change automatically
+"
+" Get latest change of file 
+" Manually
+noremap <F5> :checktime <Enter>
+" Automatically
 " Editing file will be sync from any source but it takes maybe 2-3 seconds to take effect so dont worry
 set autoread
 " Triger `autoread` when files changes on disk
@@ -271,44 +314,70 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
 " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
 autocmd FileChangedShellPost *
 			\ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
-
+"
 " Apply changes : <C-F1> == <F25>
-noremap <F25> :source /home/$USER/.config/nvim/init.vim <Enter>
+noremap <F25> :source /home/$USER/.config/nvim/init.lua <Enter>
 
-" Buffers aka Tabs
-" " Simply switch buffers
-" noremap <F6> :bprevious <Enter>
-" noremap <F7> :bnext <Enter>
+" "Buffers"
+" " Switch buffers
 " Switch and also show list of buffers (previous is "#" and now is "%a")
-noremap <F7> :bnext<CR>:redraw<CR>:ls<CR>
-noremap <F6> :bprevious<CR>:redraw<CR>:ls<CR>
-" Show listed-only buffers and allow to choose one by entering number then press <Enter> " <F30> = <C-F6>
-noremap <F30> :buffers<CR>:buffer<Space>
-" Show all buffers and allow to choose one by entering number then press <Enter> " <F31> = <C-F7>
-noremap <F31> :buffers!<CR>:buffer<Space>
-" Close current buffer <F8>
-noremap <F8><F8> :bd<Enter>
+" <F23> = <S-F11>
+noremap <F23> :bprevious<CR>:redraw<CR>:ls<CR>
+" <F24> = <S-F12>
+noremap <F24> :bnext<CR>:redraw<CR>:ls<CR>
+"
+" Show listed-only buffers and allow to choose one by entering number then press <Enter> " <F47> = <C-S-F11>
+noremap <F47> :buffers<CR>:buffer<Space>
+" Show all buffers and allow to choose one by entering number then press <Enter> " <F48> = <C-S-F12>
+noremap <F48> :buffers!<CR>:buffer<Space>
+" Close buffer (current) " <F52> = <A-F4>
+noremap <F52><F52> :bd<Enter>
 
-noremap <F12> :bnext<CR>:redraw<CR>:ls<CR>
-noremap <F10> :bprevious<CR>:redraw<CR>:ls<CR>
+" "Tabs"
+" " Swith tabs (<C-page_up> <C-page_down> also work)
+noremap <F11> :tabprev<CR>
+noremap <F12> :tabnext<CR>
+" " Create new tab
+" <F35> = <C-F11> new tab at begining
+noremap <F35> :0tabnew<CR>
+" <F36> = <C-F12> new tab at last
+noremap <F36> :$tabnew<CR>
+
+" "Env"
+" Show current position of cursor easily
+set cursorline
+set cursorcolumn
+" Show current line number
+" set nu rnu
+set nu
+" Highlight search result
+set hls
+" Set how many spaces 'tab' does
+set tabstop=2
+" Set how many space '>>' does
+set shiftwidth=2
+" Autoindent
+set autoindent
+" Set no swap file (highly recommend to run with autosave configuration)
+set noswapfile
 " new the right of the current buffer
 set splitright
 " new buffer below the current buffer
 set splitbelow
-
-" " yanked into clipboard
+" Yanked into clipboard
 set clipboard^=unnamed,unnamedplus
-
-" " highligh parenthesis
+" Highligh parenthesis
 hi MatchParen ctermbg=darkblue guibg=darkblue
+" Mouse enable by default
+set mouse=a
 
-function! CurrentColorBoard()
-	so $VIMRUNTIME/syntax/colortest.vim
-endfunc
 
+" "Disabled"
 nnoremap <S-Down> <nop>
 vnoremap <S-Down> <nop>
 inoremap <S-Down> <nop>
 nnoremap <S-Up> <nop>
 vnoremap <S-Up> <nop>
 inoremap <S-Up> <nop>
+nnoremap ZZ <nop>
+nnoremap ZQ <nop>
