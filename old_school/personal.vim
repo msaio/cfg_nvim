@@ -180,9 +180,27 @@ noremap <F27> :Obsess <CR>
 " Toggle vim obsession track/delete
 noremap <F27><F27> :Obsess! <CR>
 
+" " vim-bookmarks "
+let g:bookmark_save_per_working_dir = 1
+let g:bookmark_auto_save = 1
+let g:bookmark_highlight_lines = 1
+highlight BookmarkLine ctermbg=blue ctermfg=black
+highlight BookmarkSign ctermbg=NONE ctermfg=blue
+
+" " airblade/vim-gitgutter "
+let g:gitgutter_max_signs = -1
+set updatetime=100
+let g:gitgutter_sign_added = "➕" 
+let g:gitgutter_sign_modified = "◻️"
+let g:gitgutter_sign_removed = "➖"
+highlight GitGutterAdd    ctermbg=lightgreen ctermfg=blue
+highlight GitGutterChange ctermbg=yellow ctermfg=white
+highlight GitGutterDelete ctermbg=red ctermfg=lightgreen
+
 " ========================================
 " --- "Personal" ---
 " "Save" 
+" ToggleAutoSave: <S-F3> == <F15>
 function! ToggleAutoSave()
 	if !exists('#Autosave#TextChanged') 
 		augroup Autosave
@@ -202,7 +220,6 @@ function! ToggleAutoSave()
 endfunc
 " Autosave is enabled by default
 silent! call ToggleAutoSave()<CR>
-" <S-F3> == <F15>
 noremap <F15> :call ToggleAutoSave() <CR>
 "
 " Save manually
@@ -242,8 +259,8 @@ augroup remember_folds
   autocmd BufWinEnter *.* silent! loadview
 augroup END
 
-
 " "Mouse"
+" ToggleMouse: <F1>
 function! ToggleMouse()
 	" check if mouse is enabled
 	if &mouse == 'a'
@@ -256,14 +273,12 @@ function! ToggleMouse()
 		echom "ToggleMouse(): ON"
 	endif
 endfunc
-"
 noremap <F1> :call ToggleMouse() <CR>
 
 " "Pane"
-" Toggle pane to fullscreen 
-" ISSUE: may break opening nertree -> reopen nertree should be fine
+" ToggleFullScreen: hit <c-w> + =
+" Issue: may break opening nertree -> reopen nertree should be fine
 let g:flscr = 0
-"
 function! ToggleFullScreen()
 	if g:flscr == 1
 		let g:flscr = 0
@@ -277,7 +292,6 @@ function! ToggleFullScreen()
 		echo "ToggleFullScreen():" . g:flscr
 	endif
 endfunc
-"
 noremap <C-W>= :call ToggleFullScreen() <CR>
 
 " "Ultilities"
@@ -287,17 +301,6 @@ set pastetoggle=<F49>
 " Open note <S-F2> == <F14>
 " noremap <F14> :vs $NOTE_PATH<CR>
 noremap <F14> :$tabnew $NOTE_PATH<CR> 
-"
-" Clear hightligh keyword search
-" Completely remove: <C-F5> == <F29>
-noremap <F29> :let @/ = "" <Enter>
-" Remove highlight only
-" Use: " Ctrl-l "
-"
-" Search for selected
-" Simple: select with <C-v> then hit //
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-" Advance: https://vim.fandom.com/wiki/Search_for_visually_selected_text
 "
 " Get latest change of file 
 " Manually
@@ -343,6 +346,48 @@ noremap <F35> :0tabnew<CR>
 " <F36> = <C-F12> new tab at last
 noremap <F36> :$tabnew<CR>
 
+" "Search"
+" Clear highlight keyword search
+" Completely remove: <F5><F5> 
+noremap <F5><F5> :let @/ = "" <Enter>
+" Remove highlight only: <C-l>
+"
+" SearchSelected: hit /+/ to search for selected text
+" Simple
+" vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+" Explore more at https://vim.fandom.com/wiki/Search_for_visually_selected_text
+" Custom
+function! SearchSelected()
+	let saved_reg = @@
+	let g:previous_search_text = @a
+	normal! gv"ay
+	let @@ = saved_reg
+	call feedkeys("/\\V" . escape(@a, '/\') . "\<CR>")
+endfunction
+vnoremap // :call SearchSelected()<CR>
+"
+" PreviousSearch: hit \+z to highlight previous search text
+function! PreviousSearch()
+	if !exists(g:previous_search_text)
+		return
+	endif
+	let @/ = g:previous_search_text
+endfunction
+noremap <leader>z :call PreviousSearch() <CR>
+"
+" SearchNReplace: hit \+/ to replace with ...
+function! ReplaceAllCurrentSearched()
+	let selected_text = @a
+	let replacement_text = input('Replace with: ')
+	if replacement_text == ''
+		return
+	endif
+	echo "\n"
+	execute '%s/'.selected_text.'/'.replacement_text.'/g'
+	execute 'let @/ = "'.replacement_text.'"'
+endfunction
+map <leader>/ :call ReplaceAllCurrentSearched() <CR>
+
 " "Env"
 " Show current position of cursor easily
 set cursorline
@@ -371,7 +416,6 @@ hi MatchParen ctermbg=darkblue guibg=darkblue
 " Mouse enable by default
 set mouse=a
 
-
 " "Disabled"
 nnoremap <S-Down> <nop>
 vnoremap <S-Down> <nop>
@@ -381,3 +425,4 @@ vnoremap <S-Up> <nop>
 inoremap <S-Up> <nop>
 nnoremap ZZ <nop>
 nnoremap ZQ <nop>
+
