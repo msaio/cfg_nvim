@@ -9,21 +9,36 @@ function! GetPath()
 	echo current_file | redraw
 	return current_file
 endfunc
-noremap <F26> :call GetPath()<CR>
+
+function! YankPath()
+	" let current_file = expand('%:p')
+	" echo current_file | redraw
+	" let @+ = current_file
+	let current_path = GetPath()
+	let @+ = current_path
+endfunc
+" <C-F2> = <F26>
+noremap <F26> :call YankPath()<CR>
 
 function! JumpToVscode()
-	!code %:p
+	let current_file = bufname('%')
+	if current_file == ''
+		!code .
+	else
+		!code . | code %:p
+	endif
 endfunc
-noremap <F26><F26> :call JumpToVscode() <CR>
+" <A-F2> = <F50>
+noremap <F50> :call JumpToVscode() <CR>
 
 " ========================================
 " --- "Plugins" ---
 "	" Nerdtree "
+" https://github.com/preservim/nerdtree
 " Nerdtree Toggle
-map <F2> :NERDTreeToggle<CR>
+map <F2><F2> :NERDTreeToggle<CR>
 " Sometimes shit happen and NERDTree command fix thing, so be it
-" <Alt-F2> = <F50>
-map <F50> :NERDTree<CR>
+map <F2> :NERDTree<CR>
 "
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -36,13 +51,30 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 "
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+"
 let g:nerdtree_sync_cursorline = 1
 "
 " Start NERDTree when Vim starts with a directory argument.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+"
+" " nerdtree-git-plugin "
+" https://github.com/Xuyuanp/nerdtree-git-plugin
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
+let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
 
 " " Nerdcommenter "
 " Add spaces after comment delimiters by default
@@ -181,6 +213,7 @@ noremap <F27> :Obsess <CR>
 noremap <F27><F27> :Obsess! <CR>
 
 " " vim-bookmarks "
+" https://github.com/MattesGroeger/vim-bookmarks
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
 let g:bookmark_highlight_lines = 1
@@ -191,7 +224,7 @@ highlight BookmarkSign ctermbg=NONE ctermfg=blue
 let g:gitgutter_max_signs = -1
 set updatetime=100
 let g:gitgutter_sign_added = "➕" 
-let g:gitgutter_sign_modified = "◻️"
+let g:gitgutter_sign_modified = "% "
 let g:gitgutter_sign_removed = "➖"
 highlight GitGutterAdd    ctermbg=lightgreen ctermfg=blue
 highlight GitGutterChange ctermbg=yellow ctermfg=white
@@ -416,6 +449,9 @@ hi MatchParen ctermbg=darkblue guibg=darkblue
 " Mouse enable by default
 set mouse=a
 
+" execute 'let g:coc_node_path = "/home/'.$USER.'/.asdf/shims/node"'
+execute 'let g:coc_node_path = "/home/'.$USER.'/.asdf/installs/nodejs/20.8.0/bin/node"'
+
 " "Disabled"
 nnoremap <S-Down> <nop>
 vnoremap <S-Down> <nop>
@@ -423,6 +459,8 @@ inoremap <S-Down> <nop>
 nnoremap <S-Up> <nop>
 vnoremap <S-Up> <nop>
 inoremap <S-Up> <nop>
+inoremap <F1> <nop>
 nnoremap ZZ <nop>
 nnoremap ZQ <nop>
+
 
