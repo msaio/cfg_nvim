@@ -223,9 +223,9 @@ highlight BookmarkSign ctermbg=NONE ctermfg=blue
 " " airblade/vim-gitgutter "
 let g:gitgutter_max_signs = -1
 set updatetime=100
-let g:gitgutter_sign_added = "➕" 
+let g:gitgutter_sign_added = "+ " 
 let g:gitgutter_sign_modified = "% "
-let g:gitgutter_sign_removed = "➖"
+let g:gitgutter_sign_removed = "- "
 highlight GitGutterAdd    ctermbg=lightgreen ctermfg=blue
 highlight GitGutterChange ctermbg=yellow ctermfg=white
 highlight GitGutterDelete ctermbg=red ctermfg=lightgreen
@@ -449,8 +449,7 @@ hi MatchParen ctermbg=darkblue guibg=darkblue
 " Mouse enable by default
 set mouse=a
 
-" execute 'let g:coc_node_path = "/home/'.$USER.'/.asdf/shims/node"'
-execute 'let g:coc_node_path = "/home/'.$USER.'/.asdf/installs/nodejs/20.8.0/bin/node"'
+execute 'let g:coc_node_path = "/home/'.$USER.'/.asdf/shims/node"'
 
 " "Disabled"
 nnoremap <S-Down> <nop>
