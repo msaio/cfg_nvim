@@ -449,7 +449,7 @@ hi MatchParen ctermbg=darkblue guibg=darkblue
 " Mouse enable by default
 set mouse=a
 
-execute 'let g:coc_node_path = "/home/'.$USER.'/.asdf/shims/node"'
+execute 'let g:coc_node_path = "'.$HOME.'/.asdf/shims/node"'
 
 " "Disabled"
 nnoremap <S-Down> <nop>
