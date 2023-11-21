@@ -1,0 +1,28 @@
+{
+	"snippets.ultisnips.pythonPrompt": true,
+	"languageserver": {
+		"ruby-lsp": {
+			"command": "ruby-lsp",
+			"initializationOptions": {
+				"experimentalFeaturesEnabled": false,
+				"enabledFeatures": [
+					"codeActions",
+					"documentHighlights",
+					"documentLink",
+					"documentSymbols",
+					"foldingRanges",
+					"formatting",
+					"hover",
+					"inlayHint",
+					"onTypeFormatting",
+					"selectionRanges",
+					"semanticHighlighting",
+					"completion"
+				],
+				"formatter": "auto"
+			},
+			"filetypes": ["ruby", ".erb"]
+		}
+  },
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/16.0.2/clangd_16.0.2/bin/clangd"
+}
