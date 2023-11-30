@@ -242,25 +242,30 @@ highlight GitGutterDelete ctermbg=red ctermfg=lightgreen
 " "Save" 
 " ToggleAutoSave: <S-F3> == <F15>
 function! ToggleAutoSave()
-	if !exists('#Autosave#TextChanged') 
-		augroup Autosave
-			autocmd!
-			" " Autosave when text changed
-			autocmd TextChanged,TextChangedI <buffer> silent write
-			" " Autosave when exiting insert mode and move to other panes
-			au InsertLeave,BufLeave * silent! wall
-		augroup END
-		echo "autosave ON"
-	else
-		augroup Autosave
-			autocmd!
-		augroup END
-		echo "autosave OFF"
-	endif
+  " Check if the buffer is associated with a file
+  if expand('%:t') !=# ''  " Check if buffer has a filename
+    if !exists('#Autosave#TextChanged')
+      augroup Autosave
+        autocmd!
+        " Autosave when text changed
+        autocmd TextChanged,TextChangedI <buffer> silent write
+        " Autosave when exiting insert mode and move to other panes
+        au InsertLeave,BufLeave * silent! wall
+      augroup END
+      echo "autosave ON"
+    else
+      augroup Autosave
+        autocmd!
+      augroup END
+      echo "autosave OFF"
+    endif
+  else
+    echo "This buffer is not associated with a file. Autosave not enabled."
+  endif
 endfunc
 " Autosave is enabled by default
-silent! call ToggleAutoSave()<CR>
-noremap <F15> :call ToggleAutoSave() <CR>
+silent! call ToggleAutoSave()
+noremap <F15> :call ToggleAutoSave()<CR>
 "
 " Save manually
 noremap <F3> :w <Enter>

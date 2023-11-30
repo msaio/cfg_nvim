@@ -19,8 +19,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-emoji' " alias + manually to convert
-" Plug 'https://gitlab.com/gi1242/vim-emoji-ab.git' " real deal,...perhaps
 
 " Themes:
 Plug 'morhetz/gruvbox'
