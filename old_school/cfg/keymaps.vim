@@ -149,3 +149,5 @@ noremap <leader>hf :GitGutterFold <CR>
 " zR	: opens all folds in the buffer.
 " zm	: closes a level of fold in the buffer.
 " zr	: opens a level of fold in the buffer.
+
+" "<Tab>" : trigger Completion

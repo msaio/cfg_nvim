@@ -21,7 +21,7 @@ badd +1 old_school/cfg/overwrite.vim
 badd +193 old_school/cfg/plugins.vim
 badd +7 old_school/init.vim
 badd +3 init.lua
-badd +51 old_school/cfg/helpers.lua
+badd +38 old_school/cfg/helpers.lua
 badd +224 lua/plugins/example.lua
 badd +25 old_school/plugin.vim
 badd +22 old_school/cfg/coc-extensions.lua
@@ -75,12 +75,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 412 - ((20 * winheight(0) + 13) / 26)
+let s:l = 461 - ((24 * winheight(0) + 13) / 26)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 412
-normal! 0
+keepjumps 461
+normal! 08|
 lcd ~/cfg_nvim
 wincmd w
 argglobal
@@ -206,12 +206,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 38 - ((8 * winheight(0) + 8) / 17)
+let s:l = 37 - ((7 * winheight(0) + 8) / 17)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 38
-normal! 026|
+keepjumps 37
+normal! 016|
 lcd ~/cfg_nvim
 wincmd w
 argglobal
@@ -239,12 +239,12 @@ silent! normal! zE
 118,127fold
 128,163fold
 let &fdl = &fdl
-let s:l = 195 - ((4 * winheight(0) + 8) / 17)
+let s:l = 201 - ((10 * winheight(0) + 8) / 17)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 195
-normal! 029|
+keepjumps 201
+normal! 024|
 lcd ~/cfg_nvim
 wincmd w
 argglobal
@@ -263,11 +263,11 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 37 - ((3 * winheight(0) + 8) / 17)
+let s:l = 16 - ((15 * winheight(0) + 8) / 17)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 37
+keepjumps 16
 normal! 0
 lcd ~/cfg_nvim
 wincmd w
@@ -287,14 +287,15 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 88 - ((43 * winheight(0) + 26) / 53)
+let s:l = 127 - ((1 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 88
-normal! 038|
+keepjumps 127
+normal! 049|
 lcd ~/cfg_nvim
 wincmd w
+4wincmd w
 exe '1resize ' . ((&lines * 17 + 28) / 56)
 exe 'vert 1resize ' . ((&columns * 118 + 118) / 236)
 exe '2resize ' . ((&lines * 17 + 28) / 56)
@@ -333,12 +334,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 30 - ((29 * winheight(0) + 26) / 53)
+let s:l = 20 - ((19 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 30
-normal! 037|
+keepjumps 20
+normal! 03|
 lcd ~/cfg_nvim
 wincmd w
 argglobal
@@ -357,17 +358,17 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 92 - ((29 * winheight(0) + 26) / 53)
+let s:l = 127 - ((37 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 92
-normal! 014|
+keepjumps 127
+normal! 011|
 lcd ~/cfg_nvim
 wincmd w
 exe 'vert 1resize ' . ((&columns * 117 + 118) / 236)
 exe 'vert 2resize ' . ((&columns * 118 + 118) / 236)
-tabnext 3
+tabnext 2
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif
