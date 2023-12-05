@@ -67,7 +67,8 @@ noremap <C-W>= :call ToggleFullScreen() <CR>
 
 " "/"
 " // : search current selected (visualmode)
-vnoremap // :call SearchSelected()<CR>
+" vnoremap // :call SearchSelected()<CR>
+vnoremap // :call LuaSearchSelected()<CR>
 
 " "Leader : \"
 
@@ -75,14 +76,16 @@ vnoremap // :call SearchSelected()<CR>
 " \bh		: move to previous buffer
 " \bl		: move to next buffer
 " \bb		: show listed-only buffers and allow to choose
-" \z    : highlight previous search text
+" \z    : highlight previous search
+" \Z    : highlight next search
 " \/    : replace current searched with ...
 noremap <leader>bh :bprevious<CR>:redraw<CR>:ls<CR> 
 noremap <leader>bl :bnext<CR>:redraw<CR>:ls<CR> 
 noremap <leader>bb :buffers<CR>:buffer<Space> 
 noremap <leader>bb :buffers<CR>:buffer<Space> 
-noremap <leader>z :call PreviousSearch() <CR>
-map <leader>/ :call ReplaceAllCurrentSearched() <CR>
+nnoremap <leader>z :call LuaPreviousSearch()<CR>
+nnoremap <leader>Z :call LuaNextSearch()<CR>
+map <leader>/ :call LuaReplaceSelected() <CR>
 
 " "tabs
 " \th		: jump to previous tab (gT)
@@ -146,9 +149,3 @@ noremap <leader>hf :GitGutterFold <CR>
 " zR	: opens all folds in the buffer.
 " zm	: closes a level of fold in the buffer.
 " zr	: opens a level of fold in the buffer.
-
-
-
-
-
-

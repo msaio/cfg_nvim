@@ -189,3 +189,16 @@ let g:gitgutter_sign_removed = "- "
 highlight GitGutterAdd    ctermbg=lightgreen ctermfg=blue
 highlight GitGutterChange ctermbg=yellow ctermfg=white
 highlight GitGutterDelete ctermbg=red ctermfg=lightgreen
+
+" coc-snippets
+" https://github.com/neoclide/coc-snippets
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ CheckBackspace() ? "\<TAB>" :
+      \ coc#refresh()
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+let g:coc_snippet_next = '<tab>'

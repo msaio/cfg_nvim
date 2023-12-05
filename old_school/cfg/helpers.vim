@@ -86,31 +86,23 @@ function! ToggleFullScreen()
 endfunc
 
 function! RefreshCurrentBuffer()
-	exec "call SrcCfg()"	
 	exec "checktime"
 	exec "let @/ = ''"
+  exec "let b:search_list = []"
+  exec "let b:search_index = 0"
 endfunc
 
 function! SearchSelected()
-	let saved_reg = @@
-	let g:previous_search_text = @a
-	normal! gv"ay
-	let @@ = saved_reg
+  normal! gv"ay
 	call feedkeys("/\\V" . escape(@a, '/\') . "\<CR>")
 endfunction
+" vnoremap // :call SearchSelected()<CR>
 " Simple
 " vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " Explore more at 
 " https://vim.fandom.com/wiki/Search_for_visually_selected_text
 
-function! PreviousSearch()
-	if !exists(g:previous_search_text)
-		return
-	endif
-	let @/ = g:previous_search_text
-endfunction
-
-function! ReplaceAllCurrentSearched()
+function! ReplaceSelected()
 	let selected_text = @a
 	let replacement_text = input('Replace with: ')
 	if replacement_text == ''
@@ -118,6 +110,32 @@ function! ReplaceAllCurrentSearched()
 	endif
 	echo "\n"
 	execute '%s/'.selected_text.'/'.replacement_text.'/g'
-	execute 'let @/ = "'.replacement_text.'"'
 endfunction
+
+function! InstallDefaultCocPlugins()
+  luafile $NVIM_CFG_PATH/old_school/cfg/coc-extensions.lua
+endfunction
+
+luafile $NVIM_CFG_PATH/old_school/cfg/helpers.lua
+
+function! LuaSearchSelected()
+  lua SearchSelected() 
+endfunction
+
+function! LuaPreviousSearch()
+  lua PreviousSearch() 
+endfunction
+
+function! LuaNextSearch()
+  lua NextSearch() 
+endfunction
+
+function! LuaReplaceSelected()
+  lua ReplaceSelected() 
+endfunction
+
+vnoremap <F9><F9> :call LuaSearchSelected()<CR>
+nnoremap <F10><F10> :call LuaPreviousSearch()<CR>
+nnoremap <F11><F11> :call LuaNextSearch()<CR>
+nnoremap <F12><F12> :call LuaReplaceSelected()<CR>
 

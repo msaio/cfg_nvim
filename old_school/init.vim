@@ -1,7 +1,7 @@
-"Plugins
+" Plugins
 source ~/.config/nvim/old_school/plugin.vim
 
-"Themes options
+" Themes options
 source  ~/.config/nvim/old_school/theme.vim
 
 source  ~/.config/nvim/old_school/cfg/helpers.vim
