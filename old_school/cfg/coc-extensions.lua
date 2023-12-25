@@ -4,7 +4,7 @@ local plugins = {
     "coc-html",
     "coc-json",
     "coc-lua",
-    "coc-prettier",
+    -- "coc-prettier",
     "coc-pyright",
     "coc-sh",
     "coc-snippets",

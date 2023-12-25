@@ -139,6 +139,11 @@ noremap <leader>hd :GitGutterDiffOrig <CR>
 noremap <leader>hf :GitGutterFold <CR> 
 
 " "default folding of vim"
+" ** manual mode: mm
+" ** indent mode: im
+"
+" zE  : delete all folds (mm)
+" zf  : fold selected (mm)
 " zo	: opens a fold underneath the cursor.
 " zO	: opens all folds underneath the cursor, recursively.
 " zc	: closes a fold underneath the cursor.

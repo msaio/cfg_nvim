@@ -26,6 +26,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'lilydjwg/colorizer'
+Plug 'itchyny/vim-cursorword'
 
 "	Ultilities:
 Plug 'tpope/vim-sensible'

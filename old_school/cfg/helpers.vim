@@ -1,3 +1,4 @@
+" "Vimscript functions"
 function! CurrentColorBoard()
 	so $VIMRUNTIME/syntax/colortest.vim
 endfunc
@@ -112,6 +113,7 @@ function! ReplaceSelected()
 	execute '%s/'.selected_text.'/'.replacement_text.'/g'
 endfunction
 
+" "Lua functions"
 function! InstallDefaultCocPlugins()
   luafile $NVIM_CFG_PATH/old_school/cfg/coc-extensions.lua
 endfunction
@@ -133,9 +135,4 @@ endfunction
 function! LuaReplaceSelected()
   lua ReplaceSelected() 
 endfunction
-
-vnoremap <F9><F9> :call LuaSearchSelected()<CR>
-nnoremap <F10><F10> :call LuaPreviousSearch()<CR>
-nnoremap <F11><F11> :call LuaNextSearch()<CR>
-nnoremap <F12><F12> :call LuaReplaceSelected()<CR>
 

@@ -35,11 +35,18 @@ autocmd FileChangedShellPost *
 " Show current position of cursor easily
 set cursorline
 set cursorcolumn
+" highlight CursorLine ctermfg=White ctermbg=Green cterm=bold guifg=white guibg=yellow gui=bold
+" highlight CursorLine ctermbg=darkgray cterm=bold
+" highlight CursorColumn ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg=yellow gui=bold
+" highlight CursorColumn ctermbg=darkgray cterm=bold
+
 " Show current line number
 " set nu rnu
 set nu
+
 " Highlight search result
 set hls
+
 " Set how many spaces 'tab' does
 set tabstop=2
 " Set how many space '>>' does
@@ -48,14 +55,18 @@ set shiftwidth=2
 set expandtab
 " Autoindent
 set autoindent
+
 " Set no swap file (highly recommend to run with autosave configuration)
 set noswapfile
+
 " new the right of the current buffer
 set splitright
 " new buffer below the current buffer
 set splitbelow
+
 " Yanked into clipboard
 set clipboard^=unnamed,unnamedplus
+
 " Highligh parenthesis
 hi MatchParen ctermbg=darkblue guibg=darkblue
 

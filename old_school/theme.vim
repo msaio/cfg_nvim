@@ -2,10 +2,10 @@
 set encoding=UTF-8
 
 "Grubox theme
-let g:gruvbox_contrast_dark='hard'
-set bg=dark
 silent colorscheme gruvbox
-highlight Normal ctermbg=NONE
+set bg=dark
+let g:gruvbox_contrast_dark='hard'
+highlight Normal ctermbg=NONE guibg=NONE
 
 "Vim Airline
 let g:airline#extensions#tabline#enabled = 1

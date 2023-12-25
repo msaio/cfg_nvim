@@ -436,12 +436,17 @@ map <leader>/ :call ReplaceAllCurrentSearched() <CR>
 " "Env"
 " Show current position of cursor easily
 set cursorline
+highlight Cursor ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg=yellow gui=bold
 set cursorcolumn
+highlight CursorColumn ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg=yellow gui=bold
+
 " Show current line number
 " set nu rnu
 set nu
+
 " Highlight search result
 set hls
+
 " Set how many spaces 'tab' does
 set tabstop=2
 " Set how many space '>>' does
@@ -450,16 +455,20 @@ set shiftwidth=2
 set expandtab
 " Autoindent
 set autoindent
+
 " Set no swap file (highly recommend to run with autosave configuration)
 set noswapfile
+
 " new the right of the current buffer
 set splitright
 " new buffer below the current buffer
 set splitbelow
+
 " Yanked into clipboard
 set clipboard^=unnamed,unnamedplus
 " Highligh parenthesis
 hi MatchParen ctermbg=darkblue guibg=darkblue
+
 " Mouse enable by default
 set mouse=a
 

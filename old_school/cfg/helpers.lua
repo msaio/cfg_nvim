@@ -1,17 +1,3 @@
--- function UpdateSearchList(element)
-  -- -- Extend search_list
-  -- local search_list = vim.b.search_list
-  -- if search_list == nil then
-    -- search_list = {}
-  -- end
-  -- local size = #search_list
-  -- table.insert(search_list, element)
-  -- local search_index = size + 1
-  -- vim.b.search_list = search_list
-  -- vim.b.search_index = search_index
--- end
-
--- Function to update search list
 local function UpdateSearchList(element)
   local search_list = vim.b.search_list or {}
   table.insert(search_list, element)
@@ -19,7 +5,6 @@ local function UpdateSearchList(element)
   vim.b.search_index = #search_list
 end
 
--- Function to navigate through search list
 local function NavigateSearchList(direction)
   local current_search_index = vim.b.search_index or 0
   local search_list = vim.b.search_list or {}
@@ -40,7 +25,6 @@ local function NavigateSearchList(direction)
   vim.api.nvim_feedkeys('/\\V' .. selected_text .. '\n', 'n', true)
 end
 
-
 function SearchSelected()
   -- Highlight selected text
   vim.api.nvim_command("normal! gv\"ay")
@@ -50,37 +34,6 @@ function SearchSelected()
   UpdateSearchList(selected_text)
 end
 
--- function PreviousSearch()
-  -- local current_search_index = vim.b.search_index
-  -- local search_list = vim.b.search_list
-  -- local size = #search_list
-  -- -- Update search index
-  -- if current_search_index == 1 then
-    -- vim.b.search_index = size
-  -- else
-    -- vim.b.search_index = current_search_index - 1
-  -- end
-  -- local selected_text = search_list[vim.b.search_index]
-  -- -- Update hightlight text
-  -- vim.api.nvim_feedkeys('/\\V' .. selected_text .. '\n', 'n', true)
--- end
-
--- function NextSearch()
-  -- local current_search_index = vim.b.search_index
-  -- local search_list = vim.b.search_list
-  -- local size = #search_list
-  -- -- Update search index
-  -- if current_search_index == size then
-    -- vim.b.search_index = 1
-  -- else
-    -- vim.b.search_index = current_search_index + 1
-  -- end
-  -- local selected_text = search_list[vim.b.search_index]
-  -- -- Update hightlight text
-  -- vim.api.nvim_feedkeys('/\\V' .. selected_text .. '\n', 'n', true)
--- end
-
--- Functions optimized for search navigation
 function PreviousSearch()
   NavigateSearchList("previous")
 end
