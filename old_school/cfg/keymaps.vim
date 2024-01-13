@@ -72,7 +72,7 @@ vnoremap // :call LuaSearchSelected()<CR>
 
 " "Leader : \"
 
-" "buffers
+" "buffers"
 " \bh		: move to previous buffer
 " \bl		: move to next buffer
 " \bb		: show listed-only buffers and allow to choose
@@ -87,7 +87,7 @@ nnoremap <leader>z :call LuaPreviousSearch()<CR>
 nnoremap <leader>Z :call LuaNextSearch()<CR>
 map <leader>/ :call LuaReplaceSelected() <CR>
 
-" "tabs
+" "tabs"
 " \th		: jump to previous tab (gT)
 " \tl 	: jump to next tab (gt)
 " \tnh	: create new empty tab at the left
@@ -96,7 +96,6 @@ noremap <leader>th :tabprev<CR>
 noremap <leader>tl :tabnext<CR> 
 noremap <leader>tnh :0tabnew<CR> 
 noremap <leader>tnl :$tabnew<CR> 
-
 
 
 " "tpope/vim-repeat"
@@ -155,4 +154,40 @@ noremap <leader>hf :GitGutterFold <CR>
 " zm	: closes a level of fold in the buffer.
 " zr	: opens a level of fold in the buffer.
 
-" "<Tab>" : trigger Completion
+" "coc.nvim" 
+" TODO: update keystrokes
+"       consider to intergrate coc-snippets, ultisnips
+
+" "FZF"
+" <C-\> : search keywords
+" <C-p> : search filenames via Fzf
+" " <C-q> : quit search window
+" " <C-t> : open selected in new tab
+" " <C-x> : open selected to the bottom of current
+" " <C-v> : open selected to the right of current
+" " <tab> : mark selected to be opened
+" TODO: investigate these repos
+" [fzf.preview.vim](https://github.com/yuki-yano/fzf-preview.vim)
+" [fzf.git](https://github.com/junegunn/fzf-git.sh)
+
+" "CtrlP" 
+" TODO: install
+"       add keymaps
+"       search via ag
+" [repo](https://github.com/ctrlpvim/ctrlp.vim)
+" [guide](https://ctrlpvim.github.io/ctrlp.vim/#installation)
+" [custom-ag](https://stackoverflow.com/questions/18285751/use-ag-in-ctrlp-vim)
+" [custom-rg](https://gist.github.com/darrylhebbes/4cc1b0995c265e8e08509b48954642c6)
+" <A-p> : search filenames via CtrlP
+" ^
+" [furher info for both](https://stackoverflow.com/questions/2372307/opening-files-in-vim-using-fuzzy-search)
+" v
+" "Command-T"
+" TODO: install
+"       add keymaps
+" [repo](https://github.com/wincent/Command-T)
+
+" "brooth/far.vim" 
+" TODO: update keystrokes
+" [repo](https://github.com/brooth/far.vim)
+

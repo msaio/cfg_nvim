@@ -1,5 +1,4 @@
-" Nerdtree
-" https://github.com/preservim/nerdtree
+" [Nerdtree](https://github.com/preservim/nerdtree)
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 "
@@ -18,12 +17,10 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
-" Nerdtree sync cursor 
-"https://github.com/unkiwii/vim-nerdtree-sync
+" [Nerdtree sync cursor](https://github.com/unkiwii/vim-nerdtree-sync)
 let g:nerdtree_sync_cursorline = 1
 
-" Nerdtree git status
-" https://github.com/Xuyuanp/nerdtree-git-plugin
+" [Nerdtree git status](https://github.com/Xuyuanp/nerdtree-git-plugin)
 let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Modified'  :'✹',
                 \ 'Staged'    :'✚',
@@ -38,8 +35,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ }
 let g:NERDTreeGitStatusConcealBrackets = 1 " default: 0
 
-" Nerdcommenter
-" https://github.com/preservim/nerdcommenter
+" [Nerdcommenter](https://github.com/preservim/nerdcommenter)
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " Enable trimming of trailing whitespace when uncommenting
@@ -49,9 +45,8 @@ let g:NERDCommentEmptyLines = 0
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 
-" FZF
-" https://github.com/junegunn/fzf
-" https://github.com/junegunn/fzf.vim
+" [FZF](https://github.com/junegunn/fzf)
+" [FZF-vim](https://github.com/junegunn/fzf.vim)
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val, "lnum": 1 }'))
@@ -91,9 +86,7 @@ endfunction
 "
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
-
-" Gitlens like
-" https://github.com/APZelos/blamer.nvim
+" [Gitlens like](https://github.com/APZelos/blamer.nvim)
 " APZelos/blamer.nvim
 let g:blamer_enabled = 1 							" enable by default
 let g:blamer_delay = 400 							" delay time to display
@@ -104,8 +97,7 @@ let g:blamer_prefix = ' --> '           " prefix
 " default color
 highlight Blamer ctermfg=green 
 
-" Close buffers
-" https://github.com/Asheq/close-buffers.vim
+" [Close buffers](https://github.com/Asheq/close-buffers.vim)
 " :Bbdelete other 🔥	     " bdelete all buffers except the buffer in the current window
 " :Bdelete hidden 🔥	   " bdelete buffers not visible in a window
 " :Bdelete all	         " bdelete all buffers	:bufdo bdelete
@@ -115,8 +107,7 @@ highlight Blamer ctermfg=green
 " :Bdelete menu	         " Lets you interactively choose one of the other commands above
 " nnoremap <silent> <F52> :Bdelete menu<CR>
 
-" repeat.vim
-" https://github.com/tpope/vim-repeat
+" [repeat.vim](https://github.com/tpope/vim-repeat)
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " If you've ever tried using the "." command after a plugin map, 
 " you were likely disappointed to discover 
@@ -125,8 +116,7 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " That disappointment ends today. 
 " Repeat.vim remaps "." in a way that plugins can tap into it.
 
-" surround.vim
-" https://github.com/tpope/vim-surround
+" (surround.vim)[https://github.com/tpope/vim-surround]
 " It's easiest to explain with examples. Press cs"' inside
 " > "Hello world!"
 " to change it to
@@ -167,20 +157,18 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 "
 " The . command will work with ds, cs, and yss if you install repeat.vim.
 
-" obsession.vim - Autorestore
-" https://github.com/tpope/vim-obsession
+" [obsession.vim - Autorestore](https://github.com/tpope/vim-obsession)
 " Restore previous session after shutdown (work with tmux)
+" Follow keymaps file for details
 
-" vim-bookmarks
-" https://github.com/MattesGroeger/vim-bookmarks
+" [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks)
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
 let g:bookmark_highlight_lines = 1
 highlight BookmarkLine ctermbg=blue ctermfg=black
 highlight BookmarkSign ctermbg=NONE ctermfg=blue
 
-" vim-gitgutter "
-" https://github.com/airblade/vim-gitgutter
+" [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 let g:gitgutter_max_signs = -1
 set updatetime=100
 let g:gitgutter_sign_added = "+ " 
@@ -191,8 +179,8 @@ highlight GitGutterChange ctermbg=yellow ctermfg=white
 highlight GitGutterDelete ctermbg=red ctermfg=lightgreen
 
 " ==== DEPRECATED ====
-" coc-snippets
-" https://github.com/neoclide/coc-snippets
+" --- Currently conflict with coc.nvim
+" [coc-snippets](https://github.com/neoclide/coc-snippets)
 " inoremap <silent><expr> <TAB>
       " \ coc#pum#visible() ? coc#_select_confirm() :
       " \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -205,6 +193,7 @@ highlight GitGutterDelete ctermbg=red ctermfg=lightgreen
 " let g:coc_snippet_next = '<tab>'
 " ====================
 
+" [coc.nvim](https://github.com/neoclide/coc.nvim)
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -219,30 +208,30 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
+"
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
+"
 " Use <c-space> to trigger completion
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
-
+"
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
+"
 " GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
+"
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')

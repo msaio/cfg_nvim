@@ -1,0 +1,3 @@
+let l:bm_file_version = 1
+let l:bm_sessions = {'default': {'/home/msaio/cfg_nvim/old_school/personal.vim': [{'sign_idx': 9504, 'line_nr': 394, 'content': '" "Search"'},],}}
+let l:bm_current_session = 'default'

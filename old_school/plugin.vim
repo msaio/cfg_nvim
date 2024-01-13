@@ -16,9 +16,16 @@ Plug 'brooth/far.vim'
 Plug 'preservim/nerdcommenter'
 " - Snippet
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'mattn/emmet-vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+
+" ==== DEPRECATED ====
+" --- Currently conflict with coc.nvim
+" [emmet-like](https://github.com/mattn/emmet-vim)
+" Plug 'mattn/emmet-vim'
+" [snip-engine, Ultisnips](https://github.com/SirVer/ultisnips)
+" Plug 'SirVer/ultisnips'
+" [snippets](https://github.com/honza/vim-snippets)
+" Plug 'honza/vim-snippets'
+" ====================
 
 " Themes:
 Plug 'morhetz/gruvbox'
