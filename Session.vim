@@ -57,9 +57,9 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 78 + 118) / 236)
-exe 'vert 2resize ' . ((&columns * 78 + 118) / 236)
-exe 'vert 3resize ' . ((&columns * 78 + 118) / 236)
+exe 'vert 1resize ' . ((&columns * 78 + 511) / 1023)
+exe 'vert 2resize ' . ((&columns * 78 + 511) / 1023)
+exe 'vert 3resize ' . ((&columns * 865 + 511) / 1023)
 argglobal
 balt old_school/theme.vim
 setlocal fdm=manual
@@ -88,7 +88,7 @@ silent! normal! zE
 let &fdl = &fdl
 181
 normal! zo
-let s:l = 196 - ((30 * winheight(0) + 27) / 54)
+let s:l = 196 - ((195 * winheight(0) + 498) / 997)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -110,12 +110,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 29 - ((28 * winheight(0) + 27) / 54)
+let s:l = 36 - ((35 * winheight(0) + 498) / 997)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
-normal! 0
+keepjumps 36
+normal! 029|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/cfg_nvim/old_school/cfg/keymaps.vim", ":p")) | buffer ~/cfg_nvim/old_school/cfg/keymaps.vim | else | edit ~/cfg_nvim/old_school/cfg/keymaps.vim | endif
@@ -133,7 +133,7 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 127 - ((1 * winheight(0) + 27) / 54)
+let s:l = 127 - ((16 * winheight(0) + 498) / 997)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -141,9 +141,9 @@ keepjumps 127
 normal! 030|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 78 + 118) / 236)
-exe 'vert 2resize ' . ((&columns * 78 + 118) / 236)
-exe 'vert 3resize ' . ((&columns * 78 + 118) / 236)
+exe 'vert 1resize ' . ((&columns * 78 + 511) / 1023)
+exe 'vert 2resize ' . ((&columns * 78 + 511) / 1023)
+exe 'vert 3resize ' . ((&columns * 865 + 511) / 1023)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
